@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:note_app/Utils/Navigation/navegationAnimationRightLeft.dart';
-import 'package:note_app/Utils/Navigation/navigationAnimationLeftRight.dart';
+import 'package:note_app/components/mediaAuth.dart';
+import 'package:note_app/utils/Navigation/navegationAnimationRightLeft.dart';
+import 'package:note_app/utils/Navigation/navigationAnimationLeftRight.dart';
 import 'package:note_app/view/dashboard.dart';
 import 'package:note_app/view/register.dart';
 
@@ -28,7 +29,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color.fromARGB(255, 40, 36, 82),
+        backgroundColor: Theme.of(context).colorScheme.background,
         body: Builder(
             builder: (context) => SingleChildScrollView(
                   child: Column(
@@ -45,8 +46,8 @@ class _LoginPageState extends State<LoginPage> {
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter,
                             colors: [
-                              Color.fromARGB(255, 63, 57, 129),
-                              Color.fromARGB(255, 40, 36, 82),
+                              Theme.of(context).colorScheme.tertiary,
+                              Theme.of(context).colorScheme.background,
                             ],
                           ),
                         ),
@@ -72,7 +73,7 @@ class _LoginPageState extends State<LoginPage> {
               fontSize: MediaQuery.of(context).size.height * 0.05,
               fontWeight: FontWeight.bold,
               fontFamily: 'QuickSand-Bold',
-              color: Color.fromARGB(255, 255, 255, 255),
+              color: Theme.of(context).colorScheme.inversePrimary,
             ),
           ),
         ),
@@ -84,7 +85,7 @@ class _LoginPageState extends State<LoginPage> {
           width: MediaQuery.of(context).size.width * 0.9,
           child: TextField(
             style: TextStyle(
-              color: Colors.white, // Color del texto
+              color: Theme.of(context).colorScheme.inversePrimary,
             ),
             controller: emailController,
             decoration: InputDecoration(
@@ -114,11 +115,14 @@ class _LoginPageState extends State<LoginPage> {
               hintStyle: TextStyle(
                 fontSize: MediaQuery.of(context).size.width * 0.045,
                 fontFamily: 'QuickSand',
-                fontWeight: FontWeight.w500,
-                color: Color.fromARGB(255, 255, 255, 255),
+                fontWeight: FontWeight.w600,
+                color: Theme.of(context).colorScheme.inversePrimary,
               ), // Texto por defecto
-              prefixIcon: const Icon(Icons.person_rounded,
-                  size: 20, color: Color.fromARGB(255, 255, 255, 255)),
+              prefixIcon: Icon(
+                Icons.person_rounded,
+                size: 20,
+                color: Theme.of(context).colorScheme.inversePrimary,
+              ),
               contentPadding: EdgeInsets.all(16.0),
             ),
           ),
@@ -131,7 +135,7 @@ class _LoginPageState extends State<LoginPage> {
             width: MediaQuery.of(context).size.width * 0.9,
             child: TextField(
               style: TextStyle(
-                color: Colors.white, // Color del texto
+                color: Theme.of(context).colorScheme.inversePrimary,
               ),
               controller: passwordController,
               obscureText: _obscureText,
@@ -171,13 +175,14 @@ class _LoginPageState extends State<LoginPage> {
                 hintStyle: TextStyle(
                   fontSize: MediaQuery.of(context).size.width * 0.045,
                   fontFamily: 'QuickSand',
-                  fontWeight: FontWeight.w500,
-                  color: Color.fromARGB(255, 255, 255, 255),
+                  fontWeight: FontWeight.w600,
+                  color: Theme.of(context).colorScheme.inversePrimary,
                 ),
-                prefixIcon: const Icon(Icons.lock_rounded,
-                    size: 20,
-                    color: Color.fromARGB(
-                        255, 255, 255, 255)), // Icono a la izquierda
+                prefixIcon: Icon(
+                  Icons.lock_rounded,
+                  size: 20,
+                  color: Theme.of(context).colorScheme.inversePrimary,
+                ), // Icono a la izquierda
                 suffixIcon: passwordController.text.isEmpty
                     ? null
                     : IconButton(
@@ -185,7 +190,7 @@ class _LoginPageState extends State<LoginPage> {
                           _obscureText
                               ? Icons.visibility
                               : Icons.visibility_off,
-                          color: Color.fromARGB(255, 255, 255, 255),
+                          color: Theme.of(context).colorScheme.inversePrimary,
                         ),
                         onPressed: () {
                           setState(() {
@@ -236,7 +241,7 @@ class _LoginPageState extends State<LoginPage> {
                 text: TextSpan(
                   style: TextStyle(
                     fontSize: MediaQuery.of(context).size.width * 0.035,
-                    color: Color.fromARGB(255, 255, 255, 255),
+                    color: Theme.of(context).colorScheme.inversePrimary,
                     fontFamily: 'QuickSand-Bold',
                   ),
                   children: [
@@ -254,68 +259,7 @@ class _LoginPageState extends State<LoginPage> {
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.15,
         ),
-        Row(
-          children: [
-            Container(
-              width: MediaQuery.of(context).size.width * 0.25,
-              height: 1,
-              color: Color.fromARGB(158, 184, 184, 184),
-            ),
-            Text(
-              '  Or continue with  ',
-              style: TextStyle(
-                fontWeight: FontWeight.w400,
-                fontFamily: 'QuickSand',
-                color: Color.fromARGB(158, 184, 184, 184),
-              ),
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width * 0.25,
-              height: 1,
-              color: Color.fromARGB(158, 184, 184, 184),
-            ),
-          ],
-        ),
-        SizedBox(
-          height: MediaQuery.of(context).size.height * 0.06,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            GestureDetector(
-              onTap: () {},
-              child: Container(
-                height: MediaQuery.of(context).size.height * 0.1,
-                width: MediaQuery.of(context).size.width * 0.24,
-                decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 255, 242, 242),
-                    borderRadius: BorderRadius.circular(20.0),
-                    border: Border.all(
-                        color: Color.fromARGB(255, 255, 255, 255), width: 3)),
-                child: Image.asset(
-                  'assets/images/googleLogo.png',
-                  scale: 6.5,
-                ),
-              ),
-            ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.1,
-            ),
-            GestureDetector(
-              onTap: () {},
-              child: Container(
-                height: MediaQuery.of(context).size.height * 0.1,
-                width: MediaQuery.of(context).size.width * 0.24,
-                decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 255, 245, 245),
-                    borderRadius: BorderRadius.circular(20.0),
-                    border: Border.all(
-                        color: Color.fromARGB(255, 255, 255, 255), width: 3)),
-                child: Image.asset('assets/images/appleLogo.png', scale: 6.5),
-              ),
-            ),
-          ],
-        )
+        MediaAuth()
       ],
     );
   }

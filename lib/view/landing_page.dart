@@ -1,7 +1,7 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
-import 'package:note_app/Utils/Navigation/navegationAnimationRightLeft.dart';
-import 'package:note_app/Utils/Navigation/navigationAnimationLeftRight.dart';
+import 'package:note_app/utils/Navigation/navegationAnimationRightLeft.dart';
+import 'package:note_app/utils/Navigation/navigationAnimationLeftRight.dart';
 import 'package:note_app/view/login.dart';
 import 'package:note_app/view/register.dart';
 
@@ -47,14 +47,20 @@ class _LandingPageState extends State<LandingPage> {
                   height: MediaQuery.of(context).size.height * 1,
                   width: MediaQuery.of(context).size.width * 1,
                   decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 40, 36, 82),
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Theme.of(context).colorScheme.tertiary,
+                        Theme.of(context).colorScheme.background,
+                      ],
+                    ),
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       logoSection(),
                       accesSection(),
-                      //socialMediaLoginSection()
                     ],
                   ),
                 )));
@@ -67,7 +73,7 @@ class _LandingPageState extends State<LandingPage> {
           height: MediaQuery.of(context).size.height * 0.2,
           width: MediaQuery.of(context).size.width * 0.4,
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: Theme.of(context).colorScheme.inversePrimary,
             shape: BoxShape.circle,
           ),
           child: Image.asset(
@@ -79,7 +85,7 @@ class _LandingPageState extends State<LandingPage> {
           "My Notes",
           style: TextStyle(
             fontSize: MediaQuery.of(context).size.height * 0.05,
-            color: Color.fromARGB(255, 255, 255, 255),
+            color: Theme.of(context).colorScheme.inversePrimary,
             fontFamily: 'QuickSand-Bold',
           ),
         )
@@ -104,7 +110,7 @@ class _LandingPageState extends State<LandingPage> {
                     fontSize: MediaQuery.of(context).size.height * 0.035,
                     fontWeight: FontWeight.bold,
                     fontFamily: 'QuickSand-Bold',
-                    color: Color.fromARGB(255, 255, 255, 255),
+                    color: Theme.of(context).colorScheme.inversePrimary,
                   ),
                 )
               : Container(),

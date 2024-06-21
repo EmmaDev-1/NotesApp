@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:note_app/Utils/Navigation/navegationAnimationRightLeft.dart';
-import 'package:note_app/Utils/Navigation/navigationAnimationLeftRight.dart';
+import 'package:note_app/components/mediaAuth.dart';
+import 'package:note_app/utils/Navigation/navegationAnimationRightLeft.dart';
+import 'package:note_app/utils/Navigation/navigationAnimationLeftRight.dart';
 import 'package:note_app/view/login.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -16,7 +17,7 @@ class _RegisterPageState extends State<RegisterPage> {
   late bool _obscureTextRepeat = true;
 
   //Controllers
-  late TextEditingController userController;
+  TextEditingController userController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController passwordControllerRepeat = TextEditingController();
@@ -39,7 +40,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color.fromARGB(255, 40, 36, 82),
+        backgroundColor: Theme.of(context).colorScheme.background,
         body: Builder(
             builder: (context) => SingleChildScrollView(
                   child: Column(
@@ -56,8 +57,8 @@ class _RegisterPageState extends State<RegisterPage> {
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter,
                             colors: [
-                              Color.fromARGB(255, 63, 57, 129),
-                              Color.fromARGB(255, 40, 36, 82),
+                              Theme.of(context).colorScheme.tertiary,
+                              Theme.of(context).colorScheme.background,
                             ],
                           ),
                         ),
@@ -83,7 +84,7 @@ class _RegisterPageState extends State<RegisterPage> {
               fontSize: MediaQuery.of(context).size.height * 0.05,
               fontWeight: FontWeight.bold,
               fontFamily: 'QuickSand-Bold',
-              color: Color.fromARGB(255, 255, 255, 255),
+              color: Theme.of(context).colorScheme.inversePrimary,
             ),
           ),
         ),
@@ -98,7 +99,7 @@ class _RegisterPageState extends State<RegisterPage> {
               width: MediaQuery.of(context).size.width * 0.42,
               child: TextField(
                 style: TextStyle(
-                  color: Colors.white, // Color del texto
+                  color: Theme.of(context).colorScheme.inversePrimary,
                 ),
                 controller: emailController,
                 decoration: InputDecoration(
@@ -132,8 +133,8 @@ class _RegisterPageState extends State<RegisterPage> {
                   hintStyle: TextStyle(
                     fontSize: MediaQuery.of(context).size.width * 0.045,
                     fontFamily: 'QuickSand',
-                    fontWeight: FontWeight.w500,
-                    color: Color.fromARGB(255, 255, 255, 255),
+                    fontWeight: FontWeight.w600,
+                    color: Theme.of(context).colorScheme.inversePrimary,
                   ), // Texto por defecto
                   contentPadding: EdgeInsets.all(15.0),
                 ),
@@ -144,7 +145,7 @@ class _RegisterPageState extends State<RegisterPage> {
               width: MediaQuery.of(context).size.width * 0.42,
               child: TextField(
                 style: TextStyle(
-                  color: Colors.white, // Color del texto
+                  color: Theme.of(context).colorScheme.inversePrimary,
                 ),
                 controller: emailController,
                 decoration: InputDecoration(
@@ -178,8 +179,8 @@ class _RegisterPageState extends State<RegisterPage> {
                   hintStyle: TextStyle(
                     fontSize: MediaQuery.of(context).size.width * 0.045,
                     fontFamily: 'QuickSand',
-                    fontWeight: FontWeight.w500,
-                    color: Color.fromARGB(255, 255, 255, 255),
+                    fontWeight: FontWeight.w600,
+                    color: Theme.of(context).colorScheme.inversePrimary,
                   ), // Texto por defecto
                   contentPadding: EdgeInsets.all(15.0),
                 ),
@@ -195,7 +196,7 @@ class _RegisterPageState extends State<RegisterPage> {
           width: MediaQuery.of(context).size.width * 1,
           child: TextField(
             style: TextStyle(
-              color: Colors.white, // Color del texto
+              color: Theme.of(context).colorScheme.inversePrimary,
             ),
             controller: emailController,
             decoration: InputDecoration(
@@ -225,8 +226,8 @@ class _RegisterPageState extends State<RegisterPage> {
               hintStyle: TextStyle(
                 fontSize: MediaQuery.of(context).size.width * 0.045,
                 fontFamily: 'QuickSand',
-                fontWeight: FontWeight.w500,
-                color: Color.fromARGB(255, 255, 255, 255),
+                fontWeight: FontWeight.w600,
+                color: Theme.of(context).colorScheme.inversePrimary,
               ), // Texto por defecto
               contentPadding: EdgeInsets.all(15.0),
             ),
@@ -240,7 +241,7 @@ class _RegisterPageState extends State<RegisterPage> {
             width: MediaQuery.of(context).size.width * 0.9,
             child: TextField(
               style: TextStyle(
-                color: Colors.white, // Color del texto
+                color: Theme.of(context).colorScheme.inversePrimary,
               ),
               controller: passwordController,
               obscureText: _obscureText,
@@ -280,8 +281,8 @@ class _RegisterPageState extends State<RegisterPage> {
                 hintStyle: TextStyle(
                   fontSize: MediaQuery.of(context).size.width * 0.045,
                   fontFamily: 'QuickSand',
-                  fontWeight: FontWeight.w500,
-                  color: Color.fromARGB(255, 255, 255, 255),
+                  fontWeight: FontWeight.w600,
+                  color: Theme.of(context).colorScheme.inversePrimary,
                 ),
 
                 suffixIcon: passwordController.text.isEmpty
@@ -291,7 +292,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           _obscureText
                               ? Icons.visibility
                               : Icons.visibility_off,
-                          color: Color.fromARGB(255, 255, 255, 255),
+                          color: Theme.of(context).colorScheme.inversePrimary,
                         ),
                         onPressed: () {
                           setState(() {
@@ -314,7 +315,7 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
             child: TextField(
               style: TextStyle(
-                color: Colors.white, // Color del texto
+                color: Theme.of(context).colorScheme.inversePrimary,
               ),
               controller: passwordControllerRepeat,
               obscureText: _obscureTextRepeat,
@@ -353,8 +354,8 @@ class _RegisterPageState extends State<RegisterPage> {
                 hintStyle: TextStyle(
                   fontSize: MediaQuery.of(context).size.width * 0.045,
                   fontFamily: 'QuickSand',
-                  fontWeight: FontWeight.w500,
-                  color: Color.fromARGB(255, 255, 255, 255),
+                  fontWeight: FontWeight.w600,
+                  color: Theme.of(context).colorScheme.inversePrimary,
                 ),
                 suffixIcon: passwordControllerRepeat.text.isEmpty
                     ? null
@@ -363,8 +364,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           _obscureText
                               ? Icons.visibility
                               : Icons.visibility_off,
-                          color: Color.fromARGB(
-                              255, 255, 255, 255), // Color del icono del ojo
+                          color: Theme.of(context).colorScheme.inversePrimary,
                         ),
                         onPressed: () {
                           setState(() {
@@ -407,7 +407,7 @@ class _RegisterPageState extends State<RegisterPage> {
             onPressed: () {
               Navigator.push(
                 context,
-                crearRutaIzquierdaADerecha(context, const RegisterPage()),
+                crearRutaIzquierdaADerecha(context, const LoginPage()),
               );
             },
             child: RichText(
@@ -415,7 +415,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 text: TextSpan(
                   style: TextStyle(
                     fontSize: MediaQuery.of(context).size.width * 0.035,
-                    color: Color.fromARGB(255, 255, 255, 255),
+                    color: Theme.of(context).colorScheme.inversePrimary,
                     fontFamily: 'QuickSand-Bold',
                   ),
                   children: [
@@ -430,70 +430,9 @@ class _RegisterPageState extends State<RegisterPage> {
                   ],
                 ))),
         SizedBox(
-          height: MediaQuery.of(context).size.height * 0.04,
+          height: MediaQuery.of(context).size.height * 0.025,
         ),
-        Row(
-          children: [
-            Container(
-              width: MediaQuery.of(context).size.width * 0.25,
-              height: 1,
-              color: Color.fromARGB(158, 184, 184, 184),
-            ),
-            Text(
-              '  Or continue with  ',
-              style: TextStyle(
-                fontWeight: FontWeight.w400,
-                fontFamily: 'QuickSand',
-                color: Color.fromARGB(158, 184, 184, 184),
-              ),
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width * 0.25,
-              height: 1,
-              color: Color.fromARGB(158, 184, 184, 184),
-            ),
-          ],
-        ),
-        SizedBox(
-          height: MediaQuery.of(context).size.height * 0.04,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            GestureDetector(
-              onTap: () {},
-              child: Container(
-                height: MediaQuery.of(context).size.height * 0.1,
-                width: MediaQuery.of(context).size.width * 0.24,
-                decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 255, 242, 242),
-                    borderRadius: BorderRadius.circular(20.0),
-                    border: Border.all(
-                        color: Color.fromARGB(255, 255, 255, 255), width: 3)),
-                child: Image.asset(
-                  'assets/images/googleLogo.png',
-                  scale: 6.5,
-                ),
-              ),
-            ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.1,
-            ),
-            GestureDetector(
-              onTap: () {},
-              child: Container(
-                height: MediaQuery.of(context).size.height * 0.1,
-                width: MediaQuery.of(context).size.width * 0.24,
-                decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 255, 245, 245),
-                    borderRadius: BorderRadius.circular(20.0),
-                    border: Border.all(
-                        color: Color.fromARGB(255, 255, 255, 255), width: 3)),
-                child: Image.asset('assets/images/appleLogo.png', scale: 6.5),
-              ),
-            ),
-          ],
-        )
+        MediaAuth()
       ],
     );
   }
