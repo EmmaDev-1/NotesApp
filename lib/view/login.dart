@@ -1,11 +1,12 @@
-import 'package:flutter/cupertino.dart';
+// lib/view/login_page.dart
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:note_app/Utils/Navigation/navegationAnimationRightLeft.dart';
+import 'package:note_app/Utils/Navigation/navigationAnimationLeftRight.dart';
 import 'package:note_app/components/mediaAuth.dart';
-import 'package:note_app/utils/Navigation/navegationAnimationRightLeft.dart';
-import 'package:note_app/utils/Navigation/navigationAnimationLeftRight.dart';
 import 'package:note_app/view/dashboard.dart';
 import 'package:note_app/view/register.dart';
+import 'package:note_app/view_model/login_view_model.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -15,60 +16,124 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  //Variables Sectio
-  late bool _obscureText = true;
-  late TextEditingController emailController;
-  TextEditingController passwordController = TextEditingController();
+  bool _obscureText = true;
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   @override
-  void initState() {
-    super.initState();
-    emailController = TextEditingController();
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _loginUser() async {
+    if (emailController.text.isEmpty || passwordController.text.isEmpty) {
+      _showErrorDialog(
+        'Incomplete Form',
+        'All fields must be filled out.',
+      );
+      return;
+    }
+
+    _showLoadingDialog();
+
+    try {
+      final loginViewModel =
+          Provider.of<LoginViewModel>(context, listen: false);
+      await loginViewModel.loginUser(
+        email: emailController.text,
+        password: passwordController.text,
+      );
+
+      Navigator.pop(context);
+
+      Navigator.push(
+        context,
+        crearRuta(context, const DashboardPage()), // Navega al Dashboard
+      );
+    } catch (e) {
+      Navigator.pop(context);
+      _showErrorDialog(
+        'Login Error',
+        e.toString(),
+      );
+    }
+  }
+
+  void _showLoadingDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return const Center(
+          child: CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation(Color.fromARGB(255, 255, 94, 0)),
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _showErrorDialog(String title, String message) async {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(message),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.background,
-        body: Builder(
-            builder: (context) => SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Container(
-                        height: MediaQuery.of(context).size.height * 1,
-                        width: MediaQuery.of(context).size.width * 1,
-                        padding: EdgeInsets.only(
-                          left: MediaQuery.of(context).size.height * 0.03,
-                          right: MediaQuery.of(context).size.height * 0.03,
-                        ),
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [
-                              Theme.of(context).colorScheme.tertiary,
-                              Theme.of(context).colorScheme.background,
-                            ],
-                          ),
-                        ),
-                        child: loginSection(),
-                      )
-                    ],
-                  ),
-                )));
+      backgroundColor: Theme.of(context).colorScheme.background,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              padding: EdgeInsets.symmetric(
+                horizontal: MediaQuery.of(context).size.height * 0.03,
+              ),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Theme.of(context).colorScheme.tertiary,
+                    Theme.of(context).colorScheme.background,
+                  ],
+                ),
+              ),
+              child: _loginForm(),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
-  loginSection() {
+  Widget _loginForm() {
     return Column(
       children: [
-        SizedBox(
-          height: MediaQuery.of(context).size.height * 0.1,
-        ),
-        Container(
+        SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+        Align(
           alignment: Alignment.centerLeft,
           child: Text(
             'Log In',
-            textAlign: TextAlign.left,
             style: TextStyle(
               fontSize: MediaQuery.of(context).size.height * 0.05,
               fontWeight: FontWeight.bold,
@@ -77,144 +142,45 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
         ),
-        SizedBox(
-          height: MediaQuery.of(context).size.height * 0.07,
+        SizedBox(height: MediaQuery.of(context).size.height * 0.07),
+        _buildTextField(
+          controller: emailController,
+          hintText: 'User',
+          prefixIcon: Icons.person_rounded,
         ),
-        Container(
-          height: MediaQuery.of(context).size.height * 0.074,
-          width: MediaQuery.of(context).size.width * 0.9,
-          child: TextField(
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.inversePrimary,
-            ),
-            controller: emailController,
-            decoration: InputDecoration(
-              filled: true,
-              fillColor: Color.fromARGB(0, 116, 73, 73), // Color de fondo gris
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(30.0), // Bordes redondeados
-                borderSide: BorderSide.none, // Sin borde por defecto
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(30.0), // Bordes redondeados
-                borderSide: BorderSide(
-                  color: Color.fromARGB(
-                      143, 255, 0, 0), // Cambia aquí el color del borde
-                  width: 1.0, // Ancho del borde
-                ),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(30.0), // Bordes redondeados
-                borderSide: BorderSide(
-                  color: Color.fromARGB(255, 255, 0, 0),
-                  width: 1.0, // Ancho del borde
-                ),
-              ),
-
-              hintText: 'User',
-              hintStyle: TextStyle(
-                fontSize: MediaQuery.of(context).size.width * 0.045,
-                fontFamily: 'QuickSand',
-                fontWeight: FontWeight.w600,
-                color: Theme.of(context).colorScheme.inversePrimary,
-              ), // Texto por defecto
-              prefixIcon: Icon(
-                Icons.person_rounded,
-                size: 20,
-                color: Theme.of(context).colorScheme.inversePrimary,
-              ),
-              contentPadding: EdgeInsets.all(16.0),
-            ),
-          ),
-        ),
-        SizedBox(
-          height: MediaQuery.of(context).size.height * 0.02,
-        ),
-        Container(
-            height: MediaQuery.of(context).size.height * 0.074,
-            width: MediaQuery.of(context).size.width * 0.9,
-            child: TextField(
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.inversePrimary,
-              ),
-              controller: passwordController,
-              obscureText: _obscureText,
-              onChanged: (text) {
-                setState(() {
-                  // Actualiza el estado del icono del ojo al escribir
-                  _obscureText = text.isEmpty ? true : _obscureText;
-                });
-              },
-              decoration: InputDecoration(
-                filled: true,
-                fillColor:
-                    Color.fromARGB(0, 116, 73, 73), // Color de fondo gris
-                border: OutlineInputBorder(
-                  borderRadius:
-                      BorderRadius.circular(30.0), // Bordes redondeados
-                  borderSide: BorderSide.none, // Sin borde por defecto
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius:
-                      BorderRadius.circular(30.0), // Bordes redondeados
-                  borderSide: BorderSide(
-                    color: Color.fromARGB(
-                        143, 255, 0, 0), // Cambia aquí el color del borde
-                    width: 1.0, // Ancho del borde
+        SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+        _buildTextField(
+          controller: passwordController,
+          hintText: 'Password',
+          obscureText: _obscureText,
+          onChanged: (text) {
+            setState(() {
+              _obscureText = text.isEmpty ? true : _obscureText;
+            });
+          },
+          prefixIcon: Icons.lock_rounded,
+          suffixIcon: passwordController.text.isEmpty
+              ? null
+              : IconButton(
+                  icon: Icon(
+                    _obscureText ? Icons.visibility : Icons.visibility_off,
+                    color: Theme.of(context).colorScheme.inversePrimary,
                   ),
+                  onPressed: () {
+                    setState(() {
+                      _obscureText = !_obscureText;
+                    });
+                  },
                 ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius:
-                      BorderRadius.circular(30.0), // Bordes redondeados
-                  borderSide: BorderSide(
-                    color: Color.fromARGB(255, 255, 0, 0),
-                    width: 1.0, // Ancho del borde
-                  ),
-                ),
-                hintText: 'Password',
-                hintStyle: TextStyle(
-                  fontSize: MediaQuery.of(context).size.width * 0.045,
-                  fontFamily: 'QuickSand',
-                  fontWeight: FontWeight.w600,
-                  color: Theme.of(context).colorScheme.inversePrimary,
-                ),
-                prefixIcon: Icon(
-                  Icons.lock_rounded,
-                  size: 20,
-                  color: Theme.of(context).colorScheme.inversePrimary,
-                ), // Icono a la izquierda
-                suffixIcon: passwordController.text.isEmpty
-                    ? null
-                    : IconButton(
-                        icon: Icon(
-                          _obscureText
-                              ? Icons.visibility
-                              : Icons.visibility_off,
-                          color: Theme.of(context).colorScheme.inversePrimary,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            _obscureText = !_obscureText;
-                          });
-                        },
-                      ),
-
-                contentPadding: EdgeInsets.all(16.0),
-              ),
-            )),
-        SizedBox(
-          height: MediaQuery.of(context).size.height * 0.05,
         ),
+        SizedBox(height: MediaQuery.of(context).size.height * 0.05),
         Container(
           height: MediaQuery.of(context).size.height * 0.065,
           width: MediaQuery.of(context).size.width * 0.9,
           child: ElevatedButton(
-            onPressed: () {
-              Navigator.of(context).push(crearRuta(context, DashboardPage()));
-            },
+            onPressed: _loginUser,
             style: ElevatedButton.styleFrom(
-              backgroundColor: Color.fromARGB(
-                  255, 255, 0, 0), // Puedes cambiar el color aquí
+              backgroundColor: const Color.fromARGB(255, 255, 0, 0),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30.0),
               ),
@@ -230,37 +196,93 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
         TextButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                crearRutaIzquierdaADerecha(context, const RegisterPage()),
-              );
-            },
-            child: RichText(
-                textAlign: TextAlign.center,
-                text: TextSpan(
+          onPressed: () {
+            Navigator.push(
+              context,
+              crearRutaIzquierdaADerecha(context, const RegisterPage()),
+            );
+          },
+          child: RichText(
+            textAlign: TextAlign.center,
+            text: TextSpan(
+              style: TextStyle(
+                fontSize: MediaQuery.of(context).size.width * 0.035,
+                color: Theme.of(context).colorScheme.inversePrimary,
+                fontFamily: 'QuickSand-Bold',
+              ),
+              children: [
+                const TextSpan(text: 'Don\'t have an account? '),
+                TextSpan(
+                  text: 'Sign Up',
                   style: TextStyle(
-                    fontSize: MediaQuery.of(context).size.width * 0.035,
-                    color: Theme.of(context).colorScheme.inversePrimary,
                     fontFamily: 'QuickSand-Bold',
+                    color: const Color.fromARGB(255, 255, 0, 0),
                   ),
-                  children: [
-                    const TextSpan(text: 'Don\'t have an account? '),
-                    TextSpan(
-                      text: 'Sign Up',
-                      style: TextStyle(
-                        fontFamily: 'QuickSand-Bold',
-                        color: Color.fromARGB(
-                            255, 255, 0, 0), // Cambia aquí el color del texto
-                      ),
-                    ),
-                  ],
-                ))),
-        SizedBox(
-          height: MediaQuery.of(context).size.height * 0.15,
+                ),
+              ],
+            ),
+          ),
         ),
-        MediaAuth()
+        SizedBox(height: MediaQuery.of(context).size.height * 0.15),
+        const MediaAuth(),
       ],
+    );
+  }
+
+  Widget _buildTextField({
+    required TextEditingController controller,
+    required String hintText,
+    bool obscureText = false,
+    Function(String)? onChanged,
+    IconData? prefixIcon,
+    Widget? suffixIcon,
+  }) {
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.074,
+      width: MediaQuery.of(context).size.width * 0.9,
+      child: TextField(
+        style: TextStyle(
+          color: Theme.of(context).colorScheme.inversePrimary,
+        ),
+        controller: controller,
+        obscureText: obscureText,
+        onChanged: onChanged,
+        decoration: InputDecoration(
+          filled: true,
+          fillColor: const Color.fromARGB(0, 116, 73, 73),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30.0),
+            borderSide: BorderSide.none,
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30.0),
+            borderSide: const BorderSide(
+              color: Color.fromARGB(143, 255, 0, 0),
+              width: 1.0,
+            ),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30.0),
+            borderSide: const BorderSide(
+              color: Color.fromARGB(255, 255, 0, 0),
+              width: 1.0,
+            ),
+          ),
+          hintText: hintText,
+          hintStyle: TextStyle(
+            fontSize: MediaQuery.of(context).size.width * 0.045,
+            fontFamily: 'QuickSand',
+            fontWeight: FontWeight.w600,
+            color: Theme.of(context).colorScheme.inversePrimary,
+          ),
+          contentPadding: const EdgeInsets.all(16.0),
+          prefixIcon: prefixIcon != null
+              ? Icon(prefixIcon,
+                  size: 20, color: Theme.of(context).colorScheme.inversePrimary)
+              : null,
+          suffixIcon: suffixIcon,
+        ),
+      ),
     );
   }
 }
