@@ -4,7 +4,7 @@ import 'package:lottie/lottie.dart';
 import 'package:note_app/Utils/Navigation/navegationAnimationRightLeft.dart';
 import 'package:note_app/Utils/Navigation/navigationAnimationLeftRight.dart';
 import 'package:note_app/components/mediaAuth.dart';
-import 'package:note_app/view/dashboard.dart';
+import 'package:note_app/view/my_notes.dart';
 import 'package:note_app/view/login.dart';
 import 'package:note_app/view_model/register_view_mocel.dart';
 import 'package:provider/provider.dart';
@@ -73,7 +73,7 @@ class _RegisterPageState extends State<RegisterPage> {
       Navigator.pop(context);
       Navigator.push(
         context,
-        crearRuta(context, DashboardPage()),
+        crearRuta(context, MyNotesPage()),
       );
       _showWelcomeDialog(nameController.text);
     } catch (e) {

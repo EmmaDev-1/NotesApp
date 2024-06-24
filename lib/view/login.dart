@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:note_app/Utils/Navigation/navegationAnimationRightLeft.dart';
 import 'package:note_app/Utils/Navigation/navigationAnimationLeftRight.dart';
 import 'package:note_app/components/mediaAuth.dart';
-import 'package:note_app/view/dashboard.dart';
+import 'package:note_app/view/my_notes.dart';
 import 'package:note_app/view/register.dart';
 import 'package:note_app/view_model/login_view_model.dart';
 import 'package:provider/provider.dart';
@@ -50,7 +50,7 @@ class _LoginPageState extends State<LoginPage> {
 
       Navigator.push(
         context,
-        crearRuta(context, const DashboardPage()), // Navega al Dashboard
+        crearRuta(context, const MyNotesPage()), // Navega al Dashboard
       );
     } catch (e) {
       Navigator.pop(context);

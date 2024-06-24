@@ -4,6 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:note_app/Utils/theme/theme_provider.dart';
 import 'package:note_app/view/landing_page.dart';
 import 'package:note_app/view_model/login_view_model.dart';
+import 'package:note_app/view_model/note_view_model.dart';
+import 'package:note_app/view_model/profile_view_model.dart';
 import 'package:note_app/view_model/register_view_mocel.dart';
 import 'package:provider/provider.dart';
 
@@ -28,7 +30,8 @@ void main() async {
         ChangeNotifierProvider(create: (context) => ThemeProvider()),
         ChangeNotifierProvider(create: (context) => RegisterViewModel()),
         ChangeNotifierProvider(create: (context) => LoginViewModel()),
-        // Añade otros ViewModels aquí según sea necesario
+        ChangeNotifierProvider(create: (context) => NoteViewModel()),
+        ChangeNotifierProvider(create: (context) => ProfileViewModel()),
       ],
       child: const MyApp(),
     ),

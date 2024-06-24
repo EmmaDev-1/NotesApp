@@ -4,17 +4,20 @@ class PerfilTile extends StatelessWidget {
   final String title;
   final String value;
   final Widget leading;
+  final VoidCallback onTap;
+
   const PerfilTile({
     super.key,
     required this.title,
     required this.value,
     required this.leading,
+    required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: onTap,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

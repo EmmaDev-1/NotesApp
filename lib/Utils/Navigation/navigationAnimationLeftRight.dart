@@ -33,6 +33,6 @@ PageRouteBuilder crearRutaIzquierdaADerecha(
         ],
       );
     },
-    transitionDuration: const Duration(milliseconds: 600),
+    transitionDuration: const Duration(milliseconds: 400),
   );
 }

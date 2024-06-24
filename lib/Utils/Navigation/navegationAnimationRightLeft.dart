@@ -31,6 +31,6 @@ PageRouteBuilder crearRuta(BuildContext context, Widget destino) {
         ],
       );
     },
-    transitionDuration: const Duration(milliseconds: 600),
+    transitionDuration: const Duration(milliseconds: 500),
   );
 }

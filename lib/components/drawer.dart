@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:note_app/Utils/Navigation/navegationAnimationRightLeft.dart';
 import 'package:note_app/Utils/Navigation/navigationAnimationLeftRight.dart';
 import 'package:note_app/components/drawer_tile.dart';
+import 'package:note_app/view/archived_notes.dart';
 import 'package:note_app/view/login.dart';
 import 'package:note_app/view/profile.dart';
 import 'package:note_app/view/settings.dart';
@@ -21,7 +22,7 @@ class DrawerMenu extends StatelessWidget {
               child: CircleAvatar(
                 radius: 60,
                 backgroundImage: AssetImage(
-                  'assets/images/googleLogo.png',
+                  'assets/images/profile_Image.jpg',
                 ),
               ),
             ),
@@ -37,6 +38,20 @@ class DrawerMenu extends StatelessWidget {
             ),
             onTap: () {
               Navigator.pop(context);
+            },
+          ),
+          DrawerTile(
+            title: "Done Tasks",
+            leading: Icon(
+              Icons.check_circle,
+              color: Colors.white,
+            ),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.push(
+                context,
+                crearRuta(context, const ArchivedNotesPage()),
+              );
             },
           ),
           DrawerTile(
@@ -68,7 +83,7 @@ class DrawerMenu extends StatelessWidget {
             },
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.3,
+            height: MediaQuery.of(context).size.height * 0.2,
           ),
           Container(
             width: MediaQuery.of(context).size.width * 0.45,
