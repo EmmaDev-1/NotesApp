@@ -1,8 +1,6 @@
-// lib/view/login_page.dart
 import 'package:flutter/material.dart';
 import 'package:note_app/Utils/Navigation/navegationAnimationRightLeft.dart';
 import 'package:note_app/Utils/Navigation/navigationAnimationLeftRight.dart';
-import 'package:note_app/components/mediaAuth.dart';
 import 'package:note_app/view/my_notes.dart';
 import 'package:note_app/view/register.dart';
 import 'package:note_app/view_model/login_view_model.dart';
@@ -45,6 +43,29 @@ class _LoginPageState extends State<LoginPage> {
         email: emailController.text,
         password: passwordController.text,
       );
+
+      Navigator.pop(context);
+
+      Navigator.push(
+        context,
+        crearRuta(context, const MyNotesPage()), // Navega al Dashboard
+      );
+    } catch (e) {
+      Navigator.pop(context);
+      _showErrorDialog(
+        'Login Error',
+        e.toString(),
+      );
+    }
+  }
+
+  Future<void> _loginWithGoogle() async {
+    _showLoadingDialog();
+
+    try {
+      final loginViewModel =
+          Provider.of<LoginViewModel>(context, listen: false);
+      await loginViewModel.googleSignIn();
 
       Navigator.pop(context);
 
@@ -224,7 +245,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
         SizedBox(height: MediaQuery.of(context).size.height * 0.15),
-        const MediaAuth(),
+        //const MediaAuth(),
       ],
     );
   }

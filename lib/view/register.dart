@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:note_app/Utils/Navigation/navegationAnimationRightLeft.dart';
 import 'package:note_app/Utils/Navigation/navigationAnimationLeftRight.dart';
-import 'package:note_app/components/mediaAuth.dart';
 import 'package:note_app/view/my_notes.dart';
 import 'package:note_app/view/login.dart';
 import 'package:note_app/view_model/register_view_mocel.dart';
@@ -307,7 +306,7 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
         ),
         SizedBox(height: MediaQuery.of(context).size.height * 0.025),
-        const MediaAuth()
+        //const MediaAuth()
       ],
     );
   }

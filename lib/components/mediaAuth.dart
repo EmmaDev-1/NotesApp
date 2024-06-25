@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:note_app/Utils/Navigation/navegationAnimationRightLeft.dart';
+import 'package:note_app/view/my_notes.dart';
+import 'package:note_app/view_model/login_view_model.dart';
+import 'package:provider/provider.dart';
 
 class MediaAuth extends StatelessWidget {
   const MediaAuth({super.key});
@@ -36,7 +40,19 @@ class MediaAuth extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             GestureDetector(
-              onTap: () {},
+              onTap: () async {
+                try {
+                  await Provider.of<LoginViewModel>(context, listen: false)
+                      .googleSignIn();
+                  Navigator.push(
+                    context,
+                    crearRuta(
+                        context, const MyNotesPage()), // Navega al Dashboard
+                  );
+                } catch (e) {
+                  // Maneja el error de inicio de sesión
+                }
+              },
               child: Container(
                 height: MediaQuery.of(context).size.height * 0.1,
                 width: MediaQuery.of(context).size.width * 0.24,
