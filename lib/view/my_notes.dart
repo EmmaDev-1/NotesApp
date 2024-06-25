@@ -1,4 +1,3 @@
-// lib/view/my_notes.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
@@ -8,6 +7,7 @@ import 'package:note_app/view/add_note.dart';
 import 'package:note_app/view/details_note.dart';
 import 'package:note_app/view_model/note_view_model.dart';
 import 'package:provider/provider.dart';
+import 'package:vibration/vibration.dart';
 
 class MyNotesPage extends StatefulWidget {
   const MyNotesPage({super.key});
@@ -83,6 +83,12 @@ class _MyNotesPageState extends State<MyNotesPage> {
         return noteViewModel.notes.isEmpty
             ? const Center(child: Text('No notes available'))
             : ReorderableListView.builder(
+                onReorderStart: (int index) async {
+                  final bool? hasVibrator = await Vibration.hasVibrator();
+                  if (hasVibrator == true) {
+                    Vibration.vibrate(duration: 100);
+                  }
+                },
                 onReorder: (int oldIndex, int newIndex) {
                   setState(() {
                     if (newIndex > oldIndex) {

@@ -70,15 +70,15 @@ class _LandingPageState extends State<LandingPage> {
     return Column(
       children: [
         Container(
-          height: MediaQuery.of(context).size.height * 0.2,
-          width: MediaQuery.of(context).size.width * 0.4,
+          height: MediaQuery.of(context).size.height * 0.17,
+          width: MediaQuery.of(context).size.width * 0.43,
           decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.inversePrimary,
+            color: Colors.white,
             shape: BoxShape.circle,
           ),
           child: Image.asset(
-            'assets/images/noteLogo.png',
-            scale: 5,
+            'assets/images/appLogo.png',
+            scale: 1,
           ),
         ),
         Text(
